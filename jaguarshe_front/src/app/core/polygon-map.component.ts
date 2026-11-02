@@ -2,7 +2,7 @@ import type * as GeoJSON from 'geojson';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, afterNextRender, OnChanges, OnDestroy, NgZone, inject, signal } from '@angular/core';
 import type { Map, Marker, GeoJSONSource } from 'mapbox-gl';
 import { Row } from './api.service';
-import { mapboxToken } from './mapbox.config';
+import { loadMapboxToken } from './mapbox.config';
 
 @Component({selector:'hse-polygon-map',standalone:true,template:`
  <div class="tools">
@@ -27,6 +27,8 @@ export class PolygonMapComponent implements OnChanges,OnDestroy {
  constructor(){afterNextRender(()=>void this.initialize());}
  async initialize(){
   try{
+   const mapboxToken=await loadMapboxToken();if(this.destroyed)return;
+   if(!mapboxToken){this.status.set('Mapa no disponible: falta configurar un token público de Mapbox.');return;}
    const lib=await import('mapbox-gl');if(this.destroyed)return;this.lib=lib;
    // Serve the worker unchanged: Angular async transforms break its isolated scope.
    lib.default.workerUrl=new URL('assets/mapbox/mapbox-gl-csp-worker.js',document.baseURI).href;

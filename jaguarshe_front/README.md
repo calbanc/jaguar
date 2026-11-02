@@ -14,6 +14,18 @@ El subdominio no se interpreta automáticamente: cada despliegue usa este valor.
 Después de cambiarlo, ejecuta `npm run build` y despliega la compilación resultante.
 La API sigue validando las credenciales y el acceso del usuario a esa empresa.
 
+## Configuración de Mapbox
+
+Copia `public/mapbox-config.example.json` a `public/mapbox-config.json` y coloca
+el token público de Mapbox (prefijo `pk.`) en `mapboxToken`. El archivo de
+configuración está ignorado por Git; no guardes tokens en archivos TypeScript.
+El token será visible en el navegador: utiliza uno público con URLs permitidas
+restringidas al despliegue, nunca uno secreto (`sk.`).
+
+Para producción, crea este archivo antes de compilar o publica
+`mapbox-config.json` junto a los archivos del navegador en la raíz de la aplicación.
+Si falta la configuración, se muestra un aviso en el mapa.
+
 ## Development server
 
 To start a local development server, run:
