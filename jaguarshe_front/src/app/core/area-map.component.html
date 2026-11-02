@@ -1,0 +1,10 @@
+<section class="area-map-panel" aria-labelledby="area-map-title">
+ <header><div><h2 id="area-map-title">Mapa de áreas</h2><p>Los límites se guardan como polígonos. Selecciona uno para consultar o editar su área.</p></div><span>Norte ↑</span></header>
+ <div class="map-filters"><label>Sede<select [(ngModel)]="site" (ngModelChange)="changeSite()"><option value="">Todas las sedes</option>@for(s of sites;track s){<option [value]="s">{{s}}</option>}</select></label><label>Enfocar área<select [(ngModel)]="selected"><option value="">Todas las áreas de la selección</option>@for(a of scoped;track a['id']){<option [value]="''+a['id']">{{a['nombre']}}{{ring(a).length?'':' · Sin polígono'}}</option>}</select></label></div>
+ @if(loading){<p role="status">Cargando polígonos…</p>}@else if(visible.length){
+ <hse-polygon-map [areas]="visible" (openArea)="openArea.emit($event)"/>
+ <div class="legend">@for(area of visible;track area['id']){<button type="button" (click)="openArea.emit(area)">{{area['nombre']}} · {{area['sede_nombre']}}{{area['activo']?'':' · Inactiva'}}</button>}</div>
+ }@else{<p class="map-empty">No hay polígonos para esta selección. Crea o edita un área y registra al menos tres puntos en «Coordenadas del área».</p>}
+ <p class="map-note">{{visible.length}} área(s) con polígono en la vista · {{missing.length}} sin polígono en la sede seleccionada. El mapa incluye todas las páginas del listado y tiene sus propios filtros. Cartografía de Mapbox.</p>
+ @if(missing.length){<details><summary>Áreas pendientes de delimitar</summary><div class="legend">@for(a of missing;track a['id']){<button type="button" (click)="openArea.emit(a)">{{a['nombre']}} · {{a['sede_nombre']}}</button>}</div></details>}
+</section>

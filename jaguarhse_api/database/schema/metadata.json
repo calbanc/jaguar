@@ -1,0 +1,4537 @@
+{
+    "empresas": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "codigo": {
+                "definition": "VARCHAR(40) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 40
+            },
+            "razon_social": {
+                "definition": "VARCHAR(200) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 200
+            },
+            "nombre_comercial": {
+                "definition": "VARCHAR(200) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 200
+            },
+            "pais": {
+                "definition": "CHAR(2) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "CHAR",
+                "max": 2
+            },
+            "identificacion_fiscal": {
+                "definition": "VARCHAR(30) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 30
+            },
+            "zona_horaria": {
+                "definition": "VARCHAR(64) NOT NULL DEFAULT 'America/Lima'",
+                "nullable": false,
+                "default": true,
+                "type": "VARCHAR",
+                "max": 64
+            },
+            "direccion": {
+                "definition": "VARCHAR(255) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 255
+            },
+            "contacto_email": {
+                "definition": "VARCHAR(190) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 190
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [],
+        "unique": [
+            [
+                "codigo"
+            ],
+            [
+                "pais",
+                "identificacion_fiscal"
+            ]
+        ]
+    },
+    "contratos": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "numero": {
+                "definition": "VARCHAR(60) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 60
+            },
+            "fecha_inicio": {
+                "definition": "DATE NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "DATE"
+            },
+            "fecha_fin": {
+                "definition": "DATE NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATE"
+            },
+            "estado": {
+                "definition": "ENUM('prueba','activo','suspendido','terminado') NOT NULL DEFAULT 'prueba'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "prueba",
+                    "activo",
+                    "suspendido",
+                    "terminado"
+                ]
+            },
+            "limite_usuarios": {
+                "definition": "INT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "INT"
+            },
+            "limite_almacenamiento_mb": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "numero"
+            ]
+        ]
+    },
+    "usuarios": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "nombre": {
+                "definition": "VARCHAR(150) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 150
+            },
+            "email": {
+                "definition": "VARCHAR(190) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 190
+            },
+            "password_hash": {
+                "definition": "VARCHAR(255) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 255
+            },
+            "email_verified_at": {
+                "definition": "DATETIME NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [],
+        "unique": [
+            [
+                "email"
+            ]
+        ]
+    },
+    "miembros_empresa": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "usuario_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "usuario_id"
+                ],
+                "table": "usuarios",
+                "references": [
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "usuario_id"
+            ]
+        ]
+    },
+    "plataformas": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "codigo": {
+                "definition": "VARCHAR(20) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 20
+            },
+            "nombre": {
+                "definition": "VARCHAR(80) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 80
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [],
+        "unique": [
+            [
+                "codigo"
+            ]
+        ]
+    },
+    "modulos": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "codigo": {
+                "definition": "VARCHAR(50) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 50
+            },
+            "nombre": {
+                "definition": "VARCHAR(120) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 120
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [],
+        "unique": [
+            [
+                "codigo"
+            ]
+        ]
+    },
+    "empresa_modulos": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "modulo_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "modulo_id"
+                ],
+                "table": "modulos",
+                "references": [
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "modulo_id"
+            ]
+        ]
+    },
+    "roles": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "nombre": {
+                "definition": "VARCHAR(80) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 80
+            },
+            "descripcion": {
+                "definition": "VARCHAR(255) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 255
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "nombre"
+            ]
+        ]
+    },
+    "permisos": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "modulo_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "codigo": {
+                "definition": "VARCHAR(100) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 100
+            },
+            "descripcion": {
+                "definition": "VARCHAR(200) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 200
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "modulo_id"
+                ],
+                "table": "modulos",
+                "references": [
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "codigo"
+            ]
+        ]
+    },
+    "rol_permisos": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "rol_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "permiso_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "rol_id"
+                ],
+                "table": "roles",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "permiso_id"
+                ],
+                "table": "permisos",
+                "references": [
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "rol_id",
+                "permiso_id"
+            ]
+        ]
+    },
+    "accesos_aplicacion": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "miembro_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "plataforma_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "rol_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "miembro_id"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "rol_id"
+                ],
+                "table": "roles",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "plataforma_id"
+                ],
+                "table": "plataformas",
+                "references": [
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "miembro_id",
+                "plataforma_id"
+            ]
+        ]
+    },
+    "sesiones": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "acceso_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "token_hash": {
+                "definition": "CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "CHAR",
+                "max": 64
+            },
+            "dispositivo": {
+                "definition": "VARCHAR(200) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 200
+            },
+            "ip": {
+                "definition": "VARCHAR(45) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 45
+            },
+            "expira_at": {
+                "definition": "DATETIME NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "revocado_at": {
+                "definition": "DATETIME NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "ultimo_uso_at": {
+                "definition": "DATETIME NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "acceso_id"
+                ],
+                "table": "accesos_aplicacion",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "token_hash"
+            ]
+        ]
+    },
+    "sedes": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "codigo": {
+                "definition": "VARCHAR(40) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 40
+            },
+            "nombre": {
+                "definition": "VARCHAR(150) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 150
+            },
+            "direccion": {
+                "definition": "VARCHAR(255) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 255
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "pais": {
+                "definition": "CHAR(2) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "CHAR",
+                "max": 2
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "codigo"
+            ]
+        ]
+    },
+    "areas": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "zona_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "nombre": {
+                "definition": "VARCHAR(150) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 150
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "coordenadas": {
+                "definition": "JSON NULL",
+                "nullable": true,
+                "default": false,
+                "type": "JSON"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "zona_id"
+                ],
+                "table": "zonas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "zona_id",
+                "nombre"
+            ]
+        ]
+    },
+    "trabajadores": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "area_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "miembro_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "tipo_documento": {
+                "definition": "VARCHAR(20) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 20
+            },
+            "numero_documento": {
+                "definition": "VARCHAR(30) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 30
+            },
+            "nombres": {
+                "definition": "VARCHAR(150) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 150
+            },
+            "apellidos": {
+                "definition": "VARCHAR(150) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 150
+            },
+            "puesto": {
+                "definition": "VARCHAR(150) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 150
+            },
+            "fecha_ingreso": {
+                "definition": "DATE NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATE"
+            },
+            "fecha_cese": {
+                "definition": "DATE NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATE"
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "zona_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "firma_almacenada": {
+                "definition": "BOOLEAN NOT NULL DEFAULT FALSE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "area_id"
+                ],
+                "table": "areas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "miembro_id"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "zona_id"
+                ],
+                "table": "zonas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "zona_id",
+                    "area_id"
+                ],
+                "table": "areas",
+                "references": [
+                    "empresa_id",
+                    "zona_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "tipo_documento",
+                "numero_documento"
+            ],
+            [
+                "empresa_id",
+                "miembro_id"
+            ]
+        ]
+    },
+    "archivos": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "subido_por": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "nombre_original": {
+                "definition": "VARCHAR(255) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 255
+            },
+            "disco": {
+                "definition": "VARCHAR(40) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 40
+            },
+            "ruta": {
+                "definition": "VARCHAR(500) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 500
+            },
+            "mime_type": {
+                "definition": "VARCHAR(120) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 120
+            },
+            "bytes": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "sha256": {
+                "definition": "CHAR(64) CHARACTER SET ascii NULL",
+                "nullable": true,
+                "default": false,
+                "type": "CHAR",
+                "max": 64
+            },
+            "clasificacion": {
+                "definition": "ENUM('interno','confidencial','restringido') NOT NULL DEFAULT 'interno'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "interno",
+                    "confidencial",
+                    "restringido"
+                ]
+            },
+            "eliminado_at": {
+                "definition": "DATETIME NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "subido_por"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ]
+        ]
+    },
+    "temas_hse": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "modulo_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "codigo": {
+                "definition": "VARCHAR(50) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 50
+            },
+            "nombre": {
+                "definition": "VARCHAR(180) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 180
+            },
+            "descripcion": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "responsable_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "aplica": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "motivo_no_aplica": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "responsable_id"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "modulo_id"
+                ],
+                "table": "modulos",
+                "references": [
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "codigo"
+            ]
+        ]
+    },
+    "requisitos_documentales": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "tema_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "nombre": {
+                "definition": "VARCHAR(180) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 180
+            },
+            "descripcion": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "obligatorio": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "requiere_vencimiento": {
+                "definition": "BOOLEAN NOT NULL DEFAULT FALSE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "peso": {
+                "definition": "DECIMAL(10,2) NOT NULL DEFAULT 1",
+                "nullable": false,
+                "default": true,
+                "type": "DECIMAL"
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "tema_id"
+                ],
+                "table": "temas_hse",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ]
+        ]
+    },
+    "documento_versiones": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "requisito_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "archivo_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "version": {
+                "definition": "INT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "INT"
+            },
+            "fecha_emision": {
+                "definition": "DATE NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATE"
+            },
+            "fecha_vencimiento": {
+                "definition": "DATE NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATE"
+            },
+            "estado": {
+                "definition": "ENUM('pendiente','aprobado','observado','rechazado') NOT NULL DEFAULT 'pendiente'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "pendiente",
+                    "aprobado",
+                    "observado",
+                    "rechazado"
+                ]
+            },
+            "revisado_por": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "revisado_at": {
+                "definition": "DATETIME NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "comentario_revision": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "requisito_id"
+                ],
+                "table": "requisitos_documentales",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "archivo_id"
+                ],
+                "table": "archivos",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "revisado_por"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "requisito_id",
+                "version"
+            ]
+        ]
+    },
+    "documento_revisiones": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "documento_version_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "revisor_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "resultado": {
+                "definition": "ENUM('aprobado','observado','rechazado') NOT NULL DEFAULT 'observado'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "aprobado",
+                    "observado",
+                    "rechazado"
+                ]
+            },
+            "comentario": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "documento_version_id"
+                ],
+                "table": "documento_versiones",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "revisor_id"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ]
+        ]
+    },
+    "checklist_plantillas": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "codigo": {
+                "definition": "VARCHAR(50) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 50
+            },
+            "nombre": {
+                "definition": "VARCHAR(180) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 180
+            },
+            "descripcion": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "instrucciones": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "version": {
+                "definition": "INT UNSIGNED NOT NULL DEFAULT 1",
+                "nullable": false,
+                "default": true,
+                "type": "INT"
+            },
+            "estado": {
+                "definition": "ENUM('borrador','publicado','retirado') NOT NULL DEFAULT 'borrador'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "borrador",
+                    "publicado",
+                    "retirado"
+                ]
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "codigo",
+                "version"
+            ]
+        ]
+    },
+    "checklist_secciones": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "plantilla_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "titulo": {
+                "definition": "VARCHAR(180) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 180
+            },
+            "descripcion": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "orden": {
+                "definition": "INT UNSIGNED NOT NULL DEFAULT 1",
+                "nullable": false,
+                "default": true,
+                "type": "INT"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "plantilla_id"
+                ],
+                "table": "checklist_plantillas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "plantilla_id",
+                "id"
+            ]
+        ]
+    },
+    "checklist_preguntas": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "plantilla_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "seccion_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "codigo": {
+                "definition": "VARCHAR(60) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 60
+            },
+            "ayuda": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "placeholder": {
+                "definition": "VARCHAR(255) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 255
+            },
+            "pregunta": {
+                "definition": "TEXT NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "TEXT"
+            },
+            "tipo": {
+                "definition": "ENUM('cumplimiento','texto','texto_largo','numero','fecha','fecha_hora','selector','seleccion_multiple','si_no','fotografia','archivo','firma') NOT NULL DEFAULT 'cumplimiento'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "cumplimiento",
+                    "texto",
+                    "texto_largo",
+                    "numero",
+                    "fecha",
+                    "fecha_hora",
+                    "selector",
+                    "seleccion_multiple",
+                    "si_no",
+                    "fotografia",
+                    "archivo",
+                    "firma"
+                ]
+            },
+            "obligatoria": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "orden": {
+                "definition": "INT UNSIGNED NOT NULL DEFAULT 1",
+                "nullable": false,
+                "default": true,
+                "type": "INT"
+            },
+            "longitud_min": {
+                "definition": "INT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "INT"
+            },
+            "longitud_max": {
+                "definition": "INT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "INT"
+            },
+            "numero_min": {
+                "definition": "DECIMAL(18,4) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DECIMAL"
+            },
+            "numero_max": {
+                "definition": "DECIMAL(18,4) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DECIMAL"
+            },
+            "fecha_min": {
+                "definition": "DATE NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATE"
+            },
+            "fecha_max": {
+                "definition": "DATE NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATE"
+            },
+            "seleccion_min": {
+                "definition": "INT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "INT"
+            },
+            "seleccion_max": {
+                "definition": "INT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "INT"
+            },
+            "archivos_min": {
+                "definition": "INT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "INT"
+            },
+            "archivos_max": {
+                "definition": "INT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "INT"
+            },
+            "archivo_max_bytes": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "mime_permitidos": {
+                "definition": "JSON NULL",
+                "nullable": true,
+                "default": false,
+                "type": "JSON"
+            },
+            "peso": {
+                "definition": "DECIMAL(10,2) NOT NULL DEFAULT 1",
+                "nullable": false,
+                "default": true,
+                "type": "DECIMAL"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "plantilla_id"
+                ],
+                "table": "checklist_plantillas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "plantilla_id",
+                    "seccion_id"
+                ],
+                "table": "checklist_secciones",
+                "references": [
+                    "empresa_id",
+                    "plantilla_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "plantilla_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "plantilla_id",
+                "codigo"
+            ]
+        ]
+    },
+    "checklist_pregunta_opciones": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "pregunta_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "valor": {
+                "definition": "VARCHAR(100) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 100
+            },
+            "etiqueta": {
+                "definition": "VARCHAR(255) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 255
+            },
+            "orden": {
+                "definition": "INT UNSIGNED NOT NULL DEFAULT 1",
+                "nullable": false,
+                "default": true,
+                "type": "INT"
+            },
+            "resultado": {
+                "definition": "ENUM('informativo','cumple','no_cumple','no_aplica') NOT NULL DEFAULT 'informativo'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "informativo",
+                    "cumple",
+                    "no_cumple",
+                    "no_aplica"
+                ]
+            },
+            "exige_observacion": {
+                "definition": "BOOLEAN NOT NULL DEFAULT FALSE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "exige_evidencia": {
+                "definition": "BOOLEAN NOT NULL DEFAULT FALSE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "pregunta_id"
+                ],
+                "table": "checklist_preguntas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "pregunta_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "pregunta_id",
+                "valor"
+            ]
+        ]
+    },
+    "checklist_registros": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "plantilla_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "area_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "realizado_por": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "uuid_cliente": {
+                "definition": "CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "CHAR",
+                "max": 36
+            },
+            "fecha": {
+                "definition": "DATETIME NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "estado": {
+                "definition": "ENUM('borrador','enviado','revisado','anulado') NOT NULL DEFAULT 'borrador'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "borrador",
+                    "enviado",
+                    "revisado",
+                    "anulado"
+                ]
+            },
+            "observaciones": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "latitud": {
+                "definition": "DECIMAL(10,7) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DECIMAL"
+            },
+            "longitud": {
+                "definition": "DECIMAL(10,7) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DECIMAL"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "plantilla_id"
+                ],
+                "table": "checklist_plantillas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "area_id"
+                ],
+                "table": "areas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "realizado_por"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "uuid_cliente"
+            ],
+            [
+                "empresa_id",
+                "plantilla_id",
+                "id"
+            ]
+        ]
+    },
+    "checklist_respuestas": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "registro_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "plantilla_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "pregunta_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "cumplimiento": {
+                "definition": "ENUM('cumple','no_cumple','no_aplica') NULL",
+                "nullable": true,
+                "default": false,
+                "type": "ENUM",
+                "values": [
+                    "cumple",
+                    "no_cumple",
+                    "no_aplica"
+                ]
+            },
+            "valor_texto": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "valor_numero": {
+                "definition": "DECIMAL(18,4) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DECIMAL"
+            },
+            "valor_fecha": {
+                "definition": "DATE NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATE"
+            },
+            "valor_fecha_hora": {
+                "definition": "DATETIME NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "valor_booleano": {
+                "definition": "BOOLEAN NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BOOLEAN"
+            },
+            "observacion": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "plantilla_id",
+                    "registro_id"
+                ],
+                "table": "checklist_registros",
+                "references": [
+                    "empresa_id",
+                    "plantilla_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "plantilla_id",
+                    "pregunta_id"
+                ],
+                "table": "checklist_preguntas",
+                "references": [
+                    "empresa_id",
+                    "plantilla_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "registro_id",
+                "pregunta_id"
+            ],
+            [
+                "empresa_id",
+                "pregunta_id",
+                "id"
+            ]
+        ]
+    },
+    "checklist_respuesta_opciones": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "respuesta_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "pregunta_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "opcion_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "pregunta_id",
+                    "respuesta_id"
+                ],
+                "table": "checklist_respuestas",
+                "references": [
+                    "empresa_id",
+                    "pregunta_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "pregunta_id",
+                    "opcion_id"
+                ],
+                "table": "checklist_pregunta_opciones",
+                "references": [
+                    "empresa_id",
+                    "pregunta_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "respuesta_id",
+                "opcion_id"
+            ]
+        ]
+    },
+    "checklist_evidencias": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "respuesta_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "archivo_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "tipo": {
+                "definition": "ENUM('fotografia','archivo','firma') NOT NULL DEFAULT 'fotografia'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "fotografia",
+                    "archivo",
+                    "firma"
+                ]
+            },
+            "orden": {
+                "definition": "INT UNSIGNED NOT NULL DEFAULT 1",
+                "nullable": false,
+                "default": true,
+                "type": "INT"
+            },
+            "descripcion": {
+                "definition": "VARCHAR(255) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 255
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "respuesta_id"
+                ],
+                "table": "checklist_respuestas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "archivo_id"
+                ],
+                "table": "archivos",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "respuesta_id",
+                "archivo_id"
+            ]
+        ]
+    },
+    "hallazgos": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "uuid_cliente": {
+                "definition": "CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "CHAR",
+                "max": 36
+            },
+            "area_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "respuesta_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "reportado_por": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "responsable_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "titulo": {
+                "definition": "VARCHAR(200) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 200
+            },
+            "descripcion": {
+                "definition": "TEXT NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "TEXT"
+            },
+            "fecha": {
+                "definition": "DATETIME NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "severidad": {
+                "definition": "ENUM('baja','media','alta','critica') NOT NULL DEFAULT 'media'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "baja",
+                    "media",
+                    "alta",
+                    "critica"
+                ]
+            },
+            "estado": {
+                "definition": "ENUM('abierto','en_proceso','por_validar','cerrado','anulado') NOT NULL DEFAULT 'abierto'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "abierto",
+                    "en_proceso",
+                    "por_validar",
+                    "cerrado",
+                    "anulado"
+                ]
+            },
+            "fecha_limite": {
+                "definition": "DATE NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATE"
+            },
+            "cerrado_at": {
+                "definition": "DATETIME NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "cerrado_por": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "area_id"
+                ],
+                "table": "areas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "respuesta_id"
+                ],
+                "table": "checklist_respuestas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "reportado_por"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "responsable_id"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "cerrado_por"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "uuid_cliente"
+            ]
+        ]
+    },
+    "hallazgo_seguimientos": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "hallazgo_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "autor_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "comentario": {
+                "definition": "TEXT NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "TEXT"
+            },
+            "estado_resultante": {
+                "definition": "ENUM('abierto','en_proceso','por_validar','cerrado','anulado') NULL",
+                "nullable": true,
+                "default": false,
+                "type": "ENUM",
+                "values": [
+                    "abierto",
+                    "en_proceso",
+                    "por_validar",
+                    "cerrado",
+                    "anulado"
+                ]
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "hallazgo_id"
+                ],
+                "table": "hallazgos",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "autor_id"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ]
+        ]
+    },
+    "hallazgo_evidencias": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "hallazgo_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "archivo_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "tipo": {
+                "definition": "ENUM('deteccion','levantamiento','cierre') NOT NULL DEFAULT 'deteccion'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "deteccion",
+                    "levantamiento",
+                    "cierre"
+                ]
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "hallazgo_id"
+                ],
+                "table": "hallazgos",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "archivo_id"
+                ],
+                "table": "archivos",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ]
+        ]
+    },
+    "acciones_correctivas": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "hallazgo_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "responsable_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "descripcion": {
+                "definition": "TEXT NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "TEXT"
+            },
+            "fecha_limite": {
+                "definition": "DATE NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "DATE"
+            },
+            "estado": {
+                "definition": "ENUM('pendiente','en_proceso','por_validar','completada','anulada') NOT NULL DEFAULT 'pendiente'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "pendiente",
+                    "en_proceso",
+                    "por_validar",
+                    "completada",
+                    "anulada"
+                ]
+            },
+            "completada_at": {
+                "definition": "DATETIME NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "hallazgo_id"
+                ],
+                "table": "hallazgos",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "responsable_id"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ]
+        ]
+    },
+    "epp_catalogo": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "codigo": {
+                "definition": "VARCHAR(50) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 50
+            },
+            "nombre": {
+                "definition": "VARCHAR(180) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 180
+            },
+            "talla": {
+                "definition": "VARCHAR(30) NOT NULL DEFAULT 'UNICA'",
+                "nullable": false,
+                "default": true,
+                "type": "VARCHAR",
+                "max": 30
+            },
+            "unidad": {
+                "definition": "VARCHAR(30) NOT NULL DEFAULT 'unidad'",
+                "nullable": false,
+                "default": true,
+                "type": "VARCHAR",
+                "max": 30
+            },
+            "vida_util_dias": {
+                "definition": "INT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "INT"
+            },
+            "ficha_archivo_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "ficha_archivo_id"
+                ],
+                "table": "archivos",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "codigo"
+            ]
+        ]
+    },
+    "almacenes": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "sede_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "nombre": {
+                "definition": "VARCHAR(150) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 150
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "sede_id"
+                ],
+                "table": "sedes",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "sede_id",
+                "nombre"
+            ]
+        ]
+    },
+    "epp_entregas": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "uuid_cliente": {
+                "definition": "CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "CHAR",
+                "max": 36
+            },
+            "trabajador_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "entregado_por": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "fecha": {
+                "definition": "DATETIME NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "estado": {
+                "definition": "ENUM('borrador','confirmada','anulada') NOT NULL DEFAULT 'borrador'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "borrador",
+                    "confirmada",
+                    "anulada"
+                ]
+            },
+            "firma_archivo_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "recibido_at": {
+                "definition": "DATETIME NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "observacion": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "motivo": {
+                "definition": "ENUM('nuevo','reposicion') NULL",
+                "nullable": true,
+                "default": false,
+                "type": "ENUM",
+                "values": [
+                    "nuevo",
+                    "reposicion"
+                ]
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "trabajador_id"
+                ],
+                "table": "trabajadores",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "entregado_por"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "firma_archivo_id"
+                ],
+                "table": "archivos",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "uuid_cliente"
+            ]
+        ]
+    },
+    "epp_entrega_detalles": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "entrega_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "epp_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "almacen_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "cantidad": {
+                "definition": "DECIMAL(12,3) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "DECIMAL"
+            },
+            "fecha_reposicion": {
+                "definition": "DATE NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DATE"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "entrega_id"
+                ],
+                "table": "epp_entregas",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "epp_id"
+                ],
+                "table": "epp_catalogo",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "almacen_id"
+                ],
+                "table": "almacenes",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "epp_id",
+                "almacen_id",
+                "id"
+            ]
+        ]
+    },
+    "epp_movimientos": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "epp_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "almacen_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "entrega_detalle_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "registrado_por": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "fecha": {
+                "definition": "DATETIME NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "DATETIME"
+            },
+            "cantidad": {
+                "definition": "DECIMAL(12,3) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "DECIMAL"
+            },
+            "tipo": {
+                "definition": "ENUM('entrada','entrega','devolucion','ajuste','reverso') NOT NULL DEFAULT 'entrada'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "entrada",
+                    "entrega",
+                    "devolucion",
+                    "ajuste",
+                    "reverso"
+                ]
+            },
+            "clave_operacion": {
+                "definition": "VARCHAR(100) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 100
+            },
+            "observacion": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "epp_id"
+                ],
+                "table": "epp_catalogo",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "almacen_id"
+                ],
+                "table": "almacenes",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "registrado_por"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "epp_id",
+                    "almacen_id",
+                    "entrega_detalle_id"
+                ],
+                "table": "epp_entrega_detalles",
+                "references": [
+                    "empresa_id",
+                    "epp_id",
+                    "almacen_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "clave_operacion"
+            ]
+        ]
+    },
+    "indicadores": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "tema_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "codigo": {
+                "definition": "VARCHAR(50) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 50
+            },
+            "nombre": {
+                "definition": "VARCHAR(180) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 180
+            },
+            "descripcion": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "unidad": {
+                "definition": "VARCHAR(30) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 30
+            },
+            "tipo_calculo": {
+                "definition": "ENUM('manual','razon') NOT NULL DEFAULT 'manual'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "manual",
+                    "razon"
+                ]
+            },
+            "factor": {
+                "definition": "DECIMAL(16,4) NOT NULL DEFAULT 100",
+                "nullable": false,
+                "default": true,
+                "type": "DECIMAL"
+            },
+            "sentido": {
+                "definition": "ENUM('mayor_mejor','menor_mejor') NOT NULL DEFAULT 'mayor_mejor'",
+                "nullable": false,
+                "default": true,
+                "type": "ENUM",
+                "values": [
+                    "mayor_mejor",
+                    "menor_mejor"
+                ]
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "tema_id"
+                ],
+                "table": "temas_hse",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "codigo"
+            ]
+        ]
+    },
+    "indicador_mediciones": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "indicador_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "periodo": {
+                "definition": "DATE NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "DATE"
+            },
+            "numerador": {
+                "definition": "DECIMAL(18,4) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DECIMAL"
+            },
+            "denominador": {
+                "definition": "DECIMAL(18,4) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DECIMAL"
+            },
+            "valor_manual": {
+                "definition": "DECIMAL(18,4) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "DECIMAL"
+            },
+            "meta": {
+                "definition": "DECIMAL(18,4) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "DECIMAL"
+            },
+            "registrado_por": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "evidencia_archivo_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "comentario": {
+                "definition": "TEXT NULL",
+                "nullable": true,
+                "default": false,
+                "type": "TEXT"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "indicador_id"
+                ],
+                "table": "indicadores",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "registrado_por"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "evidencia_archivo_id"
+                ],
+                "table": "archivos",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "indicador_id",
+                "periodo"
+            ]
+        ]
+    },
+    "auditoria_eventos": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "actor_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "accion": {
+                "definition": "VARCHAR(100) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 100
+            },
+            "entidad": {
+                "definition": "VARCHAR(100) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 100
+            },
+            "registro_id": {
+                "definition": "BIGINT UNSIGNED NULL",
+                "nullable": true,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "datos_antes": {
+                "definition": "JSON NULL",
+                "nullable": true,
+                "default": false,
+                "type": "JSON"
+            },
+            "datos_despues": {
+                "definition": "JSON NULL",
+                "nullable": true,
+                "default": false,
+                "type": "JSON"
+            },
+            "ip": {
+                "definition": "VARCHAR(45) NULL",
+                "nullable": true,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 45
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "actor_id"
+                ],
+                "table": "miembros_empresa",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ]
+        ]
+    },
+    "epp_compras": {
+        "fields": {
+            "id": {
+                "type": "BIGINT",
+                "definition": "BIGINT",
+                "nullable": false,
+                "default": false
+            },
+            "empresa_id": {
+                "type": "BIGINT",
+                "definition": "BIGINT",
+                "nullable": false,
+                "default": false
+            },
+            "clave_operacion": {
+                "type": "VARCHAR",
+                "definition": "VARCHAR",
+                "nullable": false,
+                "default": false
+            },
+            "huella": {
+                "type": "VARCHAR",
+                "definition": "VARCHAR",
+                "nullable": false,
+                "default": false
+            },
+            "proveedor": {
+                "type": "VARCHAR",
+                "definition": "VARCHAR",
+                "nullable": false,
+                "default": false
+            },
+            "proveedor_ruc": {
+                "type": "VARCHAR",
+                "definition": "VARCHAR",
+                "nullable": false,
+                "default": false
+            },
+            "proveedor_clave": {
+                "type": "VARCHAR",
+                "definition": "VARCHAR",
+                "nullable": false,
+                "default": false
+            },
+            "factura": {
+                "type": "VARCHAR",
+                "definition": "VARCHAR",
+                "nullable": false,
+                "default": false
+            },
+            "fecha": {
+                "type": "DATE",
+                "definition": "DATE",
+                "nullable": false,
+                "default": false
+            },
+            "moneda": {
+                "type": "VARCHAR",
+                "definition": "VARCHAR",
+                "nullable": false,
+                "default": false
+            },
+            "costo_total": {
+                "type": "DECIMAL",
+                "definition": "DECIMAL",
+                "nullable": false,
+                "default": false
+            },
+            "registrado_por": {
+                "type": "BIGINT",
+                "definition": "BIGINT",
+                "nullable": false,
+                "default": false
+            },
+            "observacion": {
+                "type": "TEXT",
+                "definition": "TEXT",
+                "nullable": false,
+                "default": false
+            },
+            "created_at": {
+                "type": "DATETIME",
+                "definition": "DATETIME",
+                "nullable": false,
+                "default": false
+            },
+            "updated_at": {
+                "type": "DATETIME",
+                "definition": "DATETIME",
+                "nullable": false,
+                "default": false
+            }
+        },
+        "foreign_keys": [],
+        "unique": []
+    },
+    "epp_compra_detalles": {
+        "fields": {
+            "id": {
+                "type": "BIGINT",
+                "definition": "BIGINT",
+                "nullable": false,
+                "default": false
+            },
+            "empresa_id": {
+                "type": "BIGINT",
+                "definition": "BIGINT",
+                "nullable": false,
+                "default": false
+            },
+            "compra_id": {
+                "type": "BIGINT",
+                "definition": "BIGINT",
+                "nullable": false,
+                "default": false
+            },
+            "epp_id": {
+                "type": "BIGINT",
+                "definition": "BIGINT",
+                "nullable": false,
+                "default": false
+            },
+            "almacen_id": {
+                "type": "BIGINT",
+                "definition": "BIGINT",
+                "nullable": false,
+                "default": false
+            },
+            "cantidad": {
+                "type": "DECIMAL",
+                "definition": "DECIMAL",
+                "nullable": false,
+                "default": false
+            },
+            "costo_unitario": {
+                "type": "DECIMAL",
+                "definition": "DECIMAL",
+                "nullable": false,
+                "default": false
+            },
+            "costo_total": {
+                "type": "DECIMAL",
+                "definition": "DECIMAL",
+                "nullable": false,
+                "default": false
+            },
+            "created_at": {
+                "type": "DATETIME",
+                "definition": "DATETIME",
+                "nullable": false,
+                "default": false
+            },
+            "updated_at": {
+                "type": "DATETIME",
+                "definition": "DATETIME",
+                "nullable": false,
+                "default": false
+            }
+        },
+        "foreign_keys": [],
+        "unique": []
+    },
+    "zonas": {
+        "fields": {
+            "id": {
+                "definition": "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "empresa_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "sede_id": {
+                "definition": "BIGINT UNSIGNED NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "BIGINT"
+            },
+            "nombre": {
+                "definition": "VARCHAR(150) NOT NULL",
+                "nullable": false,
+                "default": false,
+                "type": "VARCHAR",
+                "max": 150
+            },
+            "activo": {
+                "definition": "BOOLEAN NOT NULL DEFAULT TRUE",
+                "nullable": false,
+                "default": true,
+                "type": "BOOLEAN"
+            },
+            "created_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            },
+            "updated_at": {
+                "definition": "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                "nullable": false,
+                "default": true,
+                "type": "DATETIME"
+            }
+        },
+        "foreign_keys": [
+            {
+                "columns": [
+                    "empresa_id"
+                ],
+                "table": "empresas",
+                "references": [
+                    "id"
+                ]
+            },
+            {
+                "columns": [
+                    "empresa_id",
+                    "sede_id"
+                ],
+                "table": "sedes",
+                "references": [
+                    "empresa_id",
+                    "id"
+                ]
+            }
+        ],
+        "unique": [
+            [
+                "empresa_id",
+                "id"
+            ],
+            [
+                "empresa_id",
+                "sede_id",
+                "nombre"
+            ]
+        ]
+    }
+}

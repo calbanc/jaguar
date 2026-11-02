@@ -1,0 +1,77 @@
+<div [attr.inert]="modal() ? '' : null">
+  <section class="page-heading"><div><div class="eyebrow">CONTROL DE ACCESOS</div><h1>Administración<span class="heading-dot">.</span></h1><p>Usuarios, roles y permisos de tu empresa.</p></div></section>
+  <nav class="resource-tabs admin-tabs" aria-label="Pestañas de Administración">
+    @for(item of tabs;track item.key){<button type="button" [class.selected]="section()===item.key" [attr.aria-current]="section()===item.key?'page':null" (click)="selectTab(item.key)">{{item.name}}</button>}
+  </nav>
+  @if(error()&&!modal()){<div class="error" role="alert">{{error()}}</div>}
+  @if(notice()){<div class="admin-notice" role="status">{{notice()}}</div>}
+  <section class="panel records-panel" [attr.aria-busy]="busy()">
+    <div class="records-header"><div><h2>{{tab.name}}</h2><span class="record-count">{{total}} {{total===1?'registro':'registros'}}</span></div><div class="record-actions">
+      @if(api.can('administracion','descargar')){<button type="button" class="button secondary" (click)="exportExcel()" [disabled]="exporting()||busy()"><hse-icon name="download"/>{{exporting()?'Preparando Excel…':'Descargar Excel'}}</button>}
+      @if(canCreate){<button type="button" class="button primary" (click)="edit()"><hse-icon name="plus"/>{{section()==='usuarios'?'Crear usuario':section()==='roles'?'Crear rol':'Nueva asignación'}}</button>}
+    </div></div>
+    <p class="admin-description">{{tab.description}} @if(tab.readonly){<span class="badge neutral">Solo lectura</span>}</p>
+    <form class="table-toolbar" (ngSubmit)="search()"><label class="search"><hse-icon name="search"/><input name="admin-search" aria-label="Buscar registros de Administración" [(ngModel)]="query" maxlength="150" placeholder="Buscar por nombre o descripción…"/></label><div class="record-actions"><button class="button secondary" [disabled]="busy()">Buscar</button>@if(hasColumnFilters||appliedQuery){<button type="button" class="button secondary" (click)="clearFilters()">Limpiar filtros</button>}<button type="button" class="icon-button refresh" aria-label="Actualizar registros" (click)="load(page)" [disabled]="busy()"><hse-icon name="refresh"/></button></div></form>
+    @if(section()==='permisos'){
+      <div class="table-scroll permission-matrix"><table><thead><tr><th scope="col">Módulo<hse-column-filter label="Módulo" [value]="columnFilters['modulo']||''" (valueChange)="filterColumn('modulo',$event)"/></th>@for(action of permissionActions;track action.key){<th scope="col">{{action.label}}<hse-column-filter [label]="action.label" [value]="columnFilters[action.key]||''" [options]="availableFilter" (valueChange)="filterColumn(action.key,$event)"/></th>}</tr></thead><tbody>@for(group of catalogMatrix;track group.name){<tr><th>{{group.name}}</th>@for(action of permissionActions;track action.key){<td><span [attr.aria-label]="group.name+': '+action.label+(group.cells[action.key]?' disponible':' sin coincidencia')">{{group.cells[action.key]?'✓':'—'}}</span></td>}</tr>}@empty{<tr><td colspan="6">No encontramos coincidencias.</td></tr>}</tbody></table></div>
+      @for(p of rows();track p['id']){@if(p['codigo']==='documentos.confidenciales'){<details class="permission-special"><summary>Acceso adicional a documentos confidenciales</summary><p>{{p['descripcion']}}</p></details>}}
+    }@else{
+    <div class="table-scroll"><table><thead><tr>@for(col of tab.columns;track col.key){<th scope="col">{{col.name}}<hse-column-filter [label]="col.name" [value]="columnFilters[col.key]||''" [options]="col.key==='activo'?booleanFilter:[]" (valueChange)="filterColumn(col.key,$event)"/></th>}<th class="admin-actions">Acciones</th></tr></thead><tbody>
+      @if(busy()){<tr><td [attr.colspan]="tab.columns.length+1"><div class="empty"><span class="spinner"></span>Cargando registros…</div></td></tr>}
+      @else{@for(row of rows();track row['id']){<tr>
+        @for(col of tab.columns;track col.key){<td>
+          @if(col.key==='activo'){<span [class]="'badge '+(row['activo']?'green':'neutral')">{{section()==='modulos'?(row['activo']?'Habilitado':'No habilitado'):(row['activo']?'Activo':'Inactivo')}}</span>}
+          @else if(col.key==='permisos_detalle'){<button type="button" (click)="detail(row)" class="table-action" title="Ver detalle" aria-label="Ver detalle"><hse-icon name="eye"/></button>}
+          @else{<span class="admin-cell" [class.admin-primary]="col.key==='nombre'||col.key==='usuario'||col.key==='rol'">{{text(row[col.key])}}</span>@if(col.key==='usuario'){<small class="admin-muted">{{row['email']}}</small>}}
+        </td>}
+        <td><div class="admin-row-actions"><button type="button" (click)="detail(row)" class="table-action" title="Ver detalle" aria-label="Ver detalle"><hse-icon name="eye"/></button>@if(canEdit(row)){<button type="button" (click)="edit(row)" class="table-action" title="Editar registro" aria-label="Editar registro"><hse-icon name="edit"/></button>}@if(canRemove(row)){<button type="button" (click)="remove(row)" class="table-action" title="Desactivar o retirar registro" aria-label="Desactivar o retirar registro"><hse-icon name="trash"/></button>}</div></td>
+      </tr>}@empty{<tr><td [attr.colspan]="tab.columns.length+1"><div class="empty"><hse-icon name="users"/><strong>{{appliedQuery?'No encontramos coincidencias':'No hay registros todavía'}}</strong><p>{{appliedQuery?'Prueba con otro nombre o descripción.':'Los registros aparecerán aquí cuando los agregues.'}}</p></div></td></tr>}}
+    </tbody></table></div>
+    }
+    <div class="pagination"><span>{{total}} {{total===1?'registro':'registros'}} · Excel incluye todos los resultados de la búsqueda.</span><div><button type="button" class="button secondary" (click)="load(page-1)" [disabled]="page<=1||busy()">Anterior</button><span>{{page}} / {{lastPage}}</span><button type="button" class="button secondary" (click)="load(page+1)" [disabled]="page>=lastPage||busy()">Siguiente</button></div></div>
+  </section>
+</div>
+@if(modal()){
+  <div class="admin-backdrop"><section class="admin-dialog" role="dialog" aria-modal="true" aria-labelledby="admin-dialog-title">
+    <header class="admin-dialog-heading"><div><div class="eyebrow">{{tab.name}}</div><h2 id="admin-dialog-title">{{modal()==='detail'?'Detalle':modal()==='remove'?(section()==='permisos-roles'?'Retirar permiso':'Desactivar registro'):selected()?'Editar registro':section()==='usuarios'?'Crear usuario':section()==='roles'?'Crear rol':'Nueva asignación'}}</h2></div><button type="button" class="icon-button" aria-label="Cerrar ventana" (click)="close()" [disabled]="saving()"><hse-icon name="close"/></button></header>
+    @if(error()){<div class="error" role="alert">{{error()}}</div>}
+    @if(modal()==='detail'){
+      <dl class="admin-detail">@for(col of tab.columns;track col.key){@if(col.key!=='permisos_detalle'){<div><dt>{{col.name}}</dt><dd>{{col.key==='activo'?(selected()?.['activo']?'Activo':'Inactivo'):text(selected()?.[col.key])}}</dd></div>}}</dl>
+      @if(section()==='permisos-usuarios'){<p class="admin-help">Los permisos se heredan del rol. El acceso requiere que el usuario, el rol, la plataforma asignada y el módulo estén habilitados.</p>}
+      @if(selected()?.['permisos']){<h3>Permisos del rol</h3><ul class="admin-permission-list">@for(p of selected()!['permisos'];track p.id){<li><strong>{{p.modulo}}</strong><span>{{p.descripcion}}</span>@if(!p.habilitado){<span class="badge neutral">Módulo no habilitado</span>}</li>}@empty{<li>Este rol no tiene permisos asignados.</li>}</ul>}
+      <footer class="admin-dialog-footer"><button type="button" class="button secondary" (click)="close()">Cerrar</button>@if(selected()&&canEdit(selected()!)){<button type="button" class="button primary" (click)="edit(selected())">Editar</button>}</footer>
+    }@else if(modal()==='remove'){
+      <p class="admin-confirm">{{section()==='permisos-roles'?'Se retirará este permiso del rol:':'Se desactivará el siguiente registro y se conservará su historial:'}}</p><p class="admin-confirm-name">{{selected()?.['nombre']||selected()?.['usuario']||selected()?.['rol']}} @if(section()==='permisos-roles'){· {{selected()?.['descripcion']}}}</p>
+      <footer class="admin-dialog-footer"><button type="button" class="button secondary" (click)="close()" [disabled]="saving()">Cancelar</button><button type="button" class="button admin-delete" (click)="confirmRemove()" [disabled]="saving()">{{saving()?'Guardando…':section()==='permisos-roles'?'Retirar permiso':'Desactivar'}}</button></footer>
+    }@else{
+      <form #editor="ngForm" (ngSubmit)="save()">
+        @if(optionsBusy()){<p role="status" class="admin-help">Cargando opciones…</p>}
+        @if(section()==='usuarios'){
+          <div class="admin-form-grid"><label>Nombre completo<input name="nombre" [(ngModel)]="form['nombre']" required maxlength="150" autocomplete="name"/></label><label>Correo electrónico<input name="email" type="email" email [(ngModel)]="form['email']" required maxlength="190" autocomplete="email"/></label></div>
+          <label>{{selected()?'Nueva contraseña (opcional)':'Contraseña'}}<input name="password" type="password" [(ngModel)]="form['password']" [required]="!selected()" minlength="12" maxlength="255" autocomplete="new-password"/><small>Mínimo 12 caracteres. @if(selected()){Déjala vacía para conservar la contraseña actual.}</small></label>
+          @if(!selected()){
+            <div class="admin-form-grid"><label>Rol inicial<select name="rol_id" [(ngModel)]="form['rol_id']" required [disabled]="optionsBusy()"><option [ngValue]="undefined" disabled>Selecciona un rol</option>@for(role of availableRoles;track role['id']){<option [ngValue]="role['id']">{{role['nombre']}}</option>}</select></label><label>Plataforma<select name="plataforma_id" [(ngModel)]="form['plataforma_id']" required [disabled]="optionsBusy()">@for(p of options()['plataformas'];track p['id']){<option [ngValue]="p['id']">{{p['nombre']}}</option>}</select></label></div>
+          }
+        }
+        @if(section()==='roles'){
+          <label>Nombre del rol<input name="nombre" [(ngModel)]="form['nombre']" required maxlength="80"/></label><label>Descripción<textarea name="descripcion" [(ngModel)]="form['descripcion']" maxlength="255" rows="2"></textarea></label>
+          <div class="admin-permission-heading"><h3>Permisos del rol</h3><span class="record-count">{{form['permisos']?.length||0}} seleccionados</span></div><label>Buscar permisos<input name="permissionSearch" [(ngModel)]="permissionSearch" placeholder="Módulo o acción…"/></label>
+          <div class="table-scroll permission-matrix"><table><thead><tr><th scope="col">Módulo<hse-column-filter label="Módulo del rol" [value]="roleFilters['modulo']||''" (valueChange)="roleFilters['modulo']=$event"/></th>@for(action of permissionActions;track action.key){<th scope="col">{{action.label}}<hse-column-filter [label]="action.label+' del rol'" [value]="roleFilters[action.key]||''" [options]="assignedFilter" (valueChange)="roleFilters[action.key]=$event"/></th>}</tr></thead><tbody>
+            @for(group of roleMatrix;track group.name){<tr><th>{{group.name}}</th>@for(action of permissionActions;track action.key){<td>@if(group.cells[action.key];as p){<input type="checkbox" [attr.aria-label]="group.name+': '+action.label" [checked]="hasPermission(p['id'])" [disabled]="!p['asignable']" (change)="togglePermission(p['id'],$any($event.target).checked)"/>}@else{—}</td>}</tr>}
+          </tbody></table></div>
+          @if(specialPermissions.length){<details class="permission-special"><summary>Acceso adicional a documentos confidenciales</summary>@for(p of specialPermissions;track p['id']){<label class="admin-check"><input type="checkbox" [checked]="hasPermission(p['id'])" [disabled]="!p['asignable']" (change)="togglePermission(p['id'],$any($event.target).checked)"/>{{p['descripcion']}}</label>}</details>}
+
+        }
+        @if(section()==='permisos-usuarios'){
+          <label>Usuario<select name="miembro_id" [(ngModel)]="form['miembro_id']" required [disabled]="!!selected()||optionsBusy()"><option [ngValue]="undefined" disabled>Selecciona un usuario</option>@for(u of options()['usuarios'];track u['id']){<option [ngValue]="u['id']" [disabled]="!u['activo']">{{u['nombre']}} · {{u['email']}}</option>}</select></label>
+          <div class="admin-form-grid"><label>Rol<select name="rol_id" [(ngModel)]="form['rol_id']" required [disabled]="optionsBusy()"><option [ngValue]="undefined" disabled>Selecciona un rol</option>@for(r of availableRoles;track r['id']){<option [ngValue]="r['id']">{{r['nombre']}}</option>}</select></label><label>Plataforma<select name="plataforma_id" [(ngModel)]="form['plataforma_id']" required [disabled]="!!selected()||optionsBusy()"><option [ngValue]="undefined" disabled>Selecciona una plataforma</option>@for(p of options()['plataformas'];track p['id']){<option [ngValue]="p['id']">{{p['nombre']}}</option>}</select></label></div><p class="admin-help">Los permisos del rol se aplican al usuario en esta plataforma.</p>
+        }
+        @if(section()==='permisos-roles'){
+          <label>Rol<select name="rol_id" [(ngModel)]="form['rol_id']" required [disabled]="optionsBusy()"><option [ngValue]="undefined" disabled>Selecciona un rol</option>@for(r of editableRoles;track r['id']){<option [ngValue]="r['id']">{{r['nombre']}}</option>}</select></label><label>Permiso<select name="permiso_id" [(ngModel)]="form['permiso_id']" required [disabled]="optionsBusy()"><option [ngValue]="undefined" disabled>Selecciona un permiso</option>@for(p of options()['permisos'];track p['id']){<option [ngValue]="p['id']" [disabled]="!p['asignable']">{{p['descripcion']}} · {{p['modulo']}}</option>}</select></label>
+        }
+        @if(section()==='roles'||section()==='permisos-usuarios'||(section()==='usuarios'&&selected())){<label class="admin-check admin-status"><input type="checkbox" name="activo" [(ngModel)]="form['activo']" [disabled]="(section()==='usuarios'&&selected()?.['id']===currentMember)||(!api.can('administracion','eliminar')&&(!selected()||selected()?.['activo']))"/>Registro activo</label>}
+        <footer class="admin-dialog-footer"><button type="button" class="button secondary" (click)="close()" [disabled]="saving()">Cancelar</button><button class="button primary" [disabled]="saving()||optionsBusy()||!optionsReady()||editor.invalid">{{saving()?'Guardando…':'Guardar cambios'}}</button></footer>
+      </form>
+    }
+  </section></div>
+}

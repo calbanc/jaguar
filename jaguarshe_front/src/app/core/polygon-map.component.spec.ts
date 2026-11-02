@@ -1,0 +1,8 @@
+import { TestBed } from '@angular/core/testing';
+import { PolygonMapComponent } from './polygon-map.component';
+describe('Editor de polígonos Mapbox',()=>{
+ beforeEach(()=>{spyOn(PolygonMapComponent.prototype,'initialize').and.resolveTo();TestBed.configureTestingModule({imports:[PolygonMapComponent]});});
+ it('centers on device coordinates without changing the saved polygon',()=>{const f=TestBed.createComponent(PolygonMapComponent);const c=f.componentInstance;c.points=[[-77,-12],[-77.1,-12],[-77,-12.1]];const flyTo=jasmine.createSpy();(c as any).map={flyTo,remove:()=>{}};spyOn(navigator.geolocation,'getCurrentPosition').and.callFake(success=>success({coords:{longitude:-76,latitude:-13}} as GeolocationPosition));const emit=spyOn(c.pointsChange,'emit');c.locate();expect(flyTo).toHaveBeenCalledWith({center:[-76,-13],zoom:18});expect(emit).not.toHaveBeenCalled();f.destroy();});
+ it('allows manual navigation when location is denied',()=>{const f=TestBed.createComponent(PolygonMapComponent);const c=f.componentInstance;spyOn(navigator.geolocation,'getCurrentPosition').and.callFake((success,error)=>error!({code:1} as GeolocationPositionError));c.locate();expect(c.status()).toContain('Permite el acceso');f.destroy();});
+ it('undoes and clears vertices but prevents changes while saving',()=>{const f=TestBed.createComponent(PolygonMapComponent);const c=f.componentInstance;c.points=[[-77,-12],[-77.1,-12],[-77,-12.1]];const emit=spyOn(c.pointsChange,'emit');c.undo();expect(emit).toHaveBeenCalledWith([[-77,-12],[-77.1,-12]]);c.disabled=true;c.clear();expect(c.points.length).toBe(2);c.disabled=false;c.clear();expect(emit).toHaveBeenCalledWith([]);f.destroy();});
+});
